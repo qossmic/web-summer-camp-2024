@@ -1,0 +1,14 @@
+{
+    "name": "qossmic/web-summer-camp-2024",
+    "autoload": {
+        "psr-4": {
+            "Workshop\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Oliver Kossin",
+            "email": "oliver.kossin@qossmic.com"
+        }
+    ],
+}
