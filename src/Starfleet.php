@@ -9,9 +9,9 @@ class Starfleet implements ContainerInterface
 {
     private array $starfleet = [];
 
-    public function set($id, $object)
+    public function set($id, $object, array $config = [])
     {
-        $this->starfleet[$id] = $this->make($object);
+        $this->starfleet[$id] = $this->make($object, $config);
     }
 
     public function get(string $id)
@@ -24,18 +24,26 @@ class Starfleet implements ContainerInterface
         return isset($this->starfleet[$id]);
     }
 
-    private function make($object)
+    private function make($object, $config = [])
     {
         $reflectionClass = new \ReflectionClass($object);
 
         $args = [];
 
-        $parameters = $reflectionClass->getConstructor()? $reflectionClass->getConstructor()->getParameters(): [];
+        $parameters = $reflectionClass->getConstructor() ? $reflectionClass->getConstructor()->getParameters() : [];
 
-        foreach ($parameters as $parameter){
-            if(!$parameter->getType()->isBuiltin()){
-                $args[] = $this->make($parameter->getType()->getName());
+        $i = 0;
+        foreach ($parameters as $parameter) {
+
+            if(isset($config[$i])){
+                $args[] = $config[$i];
+            } else {
+                if (!$parameter->getType()->isBuiltin()) {
+                    $args[] = $this->make($parameter->getType()->getName(), $config);
+                }
             }
+
+            $i++;
         }
 
         return $reflectionClass->newInstance(...$args);
