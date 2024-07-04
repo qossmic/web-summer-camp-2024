@@ -39,7 +39,10 @@ class Starfleet implements ContainerInterface
                 $args[] = $config[$i];
             } else {
                 if (!$parameter->getType()->isBuiltin()) {
-                    $args[] = $this->make($parameter->getType()->getName(), $config);
+                    if(!$this->has($parameter->getType()->getName())){
+                        $this->set($parameter->getType()->getName(),$parameter->getType()->getName(),[]);
+                    }
+                    $args[] = $this->get($parameter->getType()->getName());
                 }
             }
 
