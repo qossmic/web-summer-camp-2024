@@ -9,7 +9,7 @@ class Galaxy
 {
 
     public function __construct(
-        private Warp $drive,
+        private Warp $drive
     )
     {
     }
